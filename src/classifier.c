@@ -31,12 +31,9 @@ void activate_matrix(matrix m, ACTIVATION a)
         }
         if (a == SOFTMAX) {
             // TODO: have to normalize by sum if we are using SOFTMAX
-            for (i = 0; i < m.rows; ++i)
+            for (j=0; j<m.cols; ++j)
             {
-                for (j = 0; j < m.cols; ++j)
-                {
-                    m.data[i][j] = m.data[i][j]/sum;
-                }
+                m.data[i][j] = m.data[i][j]/sum;
             }
         }
     }
