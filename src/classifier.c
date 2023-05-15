@@ -16,17 +16,28 @@ void activate_matrix(matrix m, ACTIVATION a)
             double x = m.data[i][j];
             if(a == LOGISTIC){
                 // TODO
+                m.data[i][j] = 1./(1+exp(-x));
             } else if (a == RELU){
-                // TODO
+                m.data[i][j] = (x > 0) ? x : 0;
             } else if (a == LRELU){
                 // TODO
+                m.data[i][j] = (x > 0) ? x : .1*x;
             } else if (a == SOFTMAX){
                 // TODO
+                m.data[i][j] = exp(x);
+
             }
             sum += m.data[i][j];
         }
         if (a == SOFTMAX) {
             // TODO: have to normalize by sum if we are using SOFTMAX
+            for (i = 0; i < m.rows; ++i)
+            {
+                for (j = 0; j < m.cols; ++j)
+                {
+                    m.data[i][j] = m.data[i][j]/sum;
+                }
+            }
         }
     }
 }
