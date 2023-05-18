@@ -108,18 +108,27 @@ matrix backward_layer(layer *l, matrix delta)
     // 1.4.1
     // delta is dL/dy
     // TODO: modify it in place to be dL/d(xw)
-
+    gradient_matrix(l->out, l->activation, delta);
 
     // 1.4.2
     // TODO: then calculate dL/dw and save it in l->dw
     free_matrix(l->dw);
-    matrix dw = make_matrix(l->w.rows, l->w.cols); // replace this
-    l->dw = dw;
 
-    
+    // to make the matrix dimensions work out right we acutally 
+    // do the matrix operiation of xt * dL/d(xw) where xt is
+    // the transpose of the input matrix x.
+    matrix xt = transpose_matrix(l->in);
+    l->dw = matrix_mult_matrix(xt, delta);
+    free_matrix(xt);
+
+    // matrix dw = make_matrix(l->w.rows, l->w.cols); // replace this
+    // l->dw = dw;
+
     // 1.4.3
     // TODO: finally, calculate dL/dx and return it.
-    matrix dx = make_matrix(l->in.rows, l->in.cols); // replace this
+    matrix wt = transpose_matrix(l->w);
+    matrix dx = matrix_mult_matrix(delta, wt);
+    free_matrix(wt);
 
     return dx;
 }
