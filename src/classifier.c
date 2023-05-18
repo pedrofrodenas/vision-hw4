@@ -44,13 +44,38 @@ void activate_matrix(matrix m, ACTIVATION a)
 // matrix m: an activated layer output
 // ACTIVATION a: activation function for a layer
 // matrix d: delta before activation gradient
+
+// TODO: Puede que aquí haya un error
 void gradient_matrix(matrix m, ACTIVATION a, matrix d)
 {
     int i, j;
+    double result;
     for(i = 0; i < m.rows; ++i){
         for(j = 0; j < m.cols; ++j){
             double x = m.data[i][j];
             // TODO: multiply the correct element of d by the gradient
+
+            if (a == LOGISTIC)
+            {
+                result = x - (1-x);
+            }
+            else if (a == RELU)
+            {
+                result = (x > 0) ? 1 : 0;
+            }
+            else if (a == LRELU)
+            {
+                result = (x > 0) ? 1 : .1;
+            }
+            else if (a == LINEAR)
+            {
+                result = 1;
+            }
+            else 
+            {
+                printf("This activation function not supported classifier.c, line 72\n");
+            }
+            d.data[i][j] *= result;
         }
     }
 }
@@ -64,10 +89,10 @@ matrix forward_layer(layer *l, matrix in)
 
     l->in = in;  // Save the input for backpropagation
 
-
     // TODO: fix this! multiply input by weights and apply activation function.
-    matrix out = make_matrix(in.rows, l->w.cols);
 
+    matrix out = matrix_mult_matrix(in, l->w);
+    activate_matrix(out, l->activation);
 
     free_matrix(l->out);// free the old output
     l->out = out;       // Save the current output for gradient calculation
