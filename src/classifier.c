@@ -142,6 +142,11 @@ void update_layer(layer *l, double rate, double momentum, double decay)
 {
     // TODO:
     // Calculate Δw_t = dL/dw_t - λw_t + mΔw_{t-1}
+
+    // Apply momentum to previous layer weights update
+    // mΔw_{t-1}
+    scale_matrix(l->v, momentum);
+    
     // save it to l->v
 
 
