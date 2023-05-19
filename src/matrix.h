@@ -21,6 +21,7 @@ double mag_matrix(matrix m);
 matrix make_matrix(int rows, int cols);
 matrix copy_matrix(matrix m);
 double *sle_solve(matrix A, double *b);
+matrix matrix_sub_matrix(matrix a, matrix b);
 matrix matrix_mult_matrix(matrix a, matrix b);
 matrix matrix_elmult_matrix(matrix a, matrix b);
 void print_matrix(matrix m);
